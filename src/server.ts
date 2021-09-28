@@ -1,5 +1,11 @@
-import 'reflect-metadata';
-import './database/index';
-import { app } from './app';
+import 'dotenv/config';
 
-app.listen(3001);
+import app from './app';
+import 'reflect-metadata';
+import './database';
+
+app.listen(process.env.PORT || 3001, () => {
+  console.log(
+    `🚀 Server ready at http://localhost:${process.env.PORT || 3001}`,
+  );
+});
