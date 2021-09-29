@@ -1,22 +1,18 @@
-FROM node:lts-alpine
+FROM node:14.17
 
-RUN apk add tzdata
-RUN cp /usr/share/zoneinfo/America/Recife /etc/localtime
-RUN echo "America/Recife" >  /etc/timezone
-RUN apk del tzdata
+# Create app directory
+USER node
+WORKDIR /home/node/
 
-RUN mkdir /app
+# Install dependencies
+COPY package.json ./
+COPY ormconfig.ts ./
+COPY .env ./
+RUN yarn install
 
-WORKDIR /app
-
-COPY package.json .
-
-RUN yarn
-
+# Bundle app source
 COPY . .
 
-ENV PORT 3001
-
+# Exports
 EXPOSE 3001
-
-CMD ["yarn", "prod"]
+CMD [ "yarn", "dev" ]
