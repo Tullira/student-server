@@ -1,31 +1,41 @@
 version: '3'
 services:
   server:
-    container_name: boilerplate-server
     build:
-      dockerfile: ./Dockerfile
       context: .
-    command: yarn dev
+      dockerfile: Dockerfile
+    image: nodejs-server
+    container_name: ${PROJECT_NAME}-server
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - '${SERVER_PORT}:3001'
     volumes:
       - .:/home/node
-      - ./node_modules:/home/node/node_modules
-    stdin_open: true
-    tty: true
-    ports:
-      - '3001:3001'
+      - node_modules:/home/node/node_modules
+    command: yarn dev
     depends_on:
       - db
 
   db:
-    container_name: boilerplate-db
-    restart: always
     image: postgres
-    ports:
-      - '${DATABASE_PORT}:5432'
+    container_name: ${PROJECT_NAME}-db
+    restart: unless-stopped
+    env_file: .env
     environment:
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - POSTGRES_DB=${DATABASE_DB}
       - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - '${DATABASE_PORT}:5432'
     volumes:
-      - /var/libs/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  node_modules:
+
+  # Documentação usada para a construçõ desse arquivo
+  # https://www.digitalocean.com/community/tutorials/containerizing-a-node-js-application-for-development-with-docker-compose-pt
+  # (principalmente o passo 4)

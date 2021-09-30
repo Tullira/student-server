@@ -16,6 +16,6 @@ jobs:
       env:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
         HOST: 157.245.115.176
-        PROJECT: ${PROJECT_NAME}
+        PROJECT: node-boilerplate
         BRANCH: main
         FORCE_DEPLOY: true
