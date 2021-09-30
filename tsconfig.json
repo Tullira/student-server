@@ -28,14 +28,11 @@
       "@models/*": [
         "./src/models/*"
       ],
-      "@views/*": [
-        "./src/views/*"
-      ],
-      "@config/*": [
-        "./src/config/*"
-      ],
       "@DTOs/*": [
         "./src/DTOs/*"
+      ],
+      "@repositories/*": [
+        "./src/repositories/*"
       ],
     }
   },

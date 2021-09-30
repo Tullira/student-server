@@ -1,11 +1,6 @@
 const userSchema = {
   type: 'object',
   properties: {
-    id: {
-      type: 'string',
-      format: 'uuid',
-      readOnly: true,
-    },
     name: {
       type: 'string',
     },
@@ -20,8 +15,8 @@ const userSchema = {
       type: 'string',
       format: 'password',
     },
-    required: ['name', 'email', 'password'],
   },
+  required: ['name', 'email', 'password'],
 };
 
 export default userSchema;

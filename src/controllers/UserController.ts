@@ -2,8 +2,8 @@ import {
   Request, Response, NextFunction,
 } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { User } from '../DTOs';
 import { UserRepository } from '../repositories';
+import { User } from '../DTOs';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {

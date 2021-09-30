@@ -14,7 +14,7 @@ const userResponse = {
       description: 'Incorrect parameters',
     },
     500: {
-      description: 'Internal server error',
+      description: 'Internal Server Error',
     },
   },
   get: {
@@ -35,7 +35,7 @@ const userResponse = {
       description: 'User not found',
     },
     500: {
-      description: 'Internal server error',
+      description: 'Internal Server Error',
     },
   },
 };
