@@ -36,6 +36,6 @@ volumes:
   pgdata:
   node_modules:
 
-  # Documentação usada para a construçõ desse arquivo
+  # Documentação usada para a construção desse arquivo
   # https://www.digitalocean.com/community/tutorials/containerizing-a-node-js-application-for-development-with-docker-compose-pt
   # (principalmente o passo 4)
