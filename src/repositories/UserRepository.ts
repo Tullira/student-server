@@ -16,4 +16,18 @@ export default class UserRepository extends Repository<User> {
       return error.severity || error;
     }
   }
+
+  public async findByEmail(email: string): Promise<User | false | string> {
+    try {
+      const user = await this.findOne({ where: { email: email } });
+
+      if (!user) {
+        return false;
+      }
+
+      return user;
+    } catch (error) {
+      return error.severity || error;
+    }
+  }
 }

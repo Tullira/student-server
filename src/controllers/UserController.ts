@@ -24,7 +24,7 @@ class UserController {
         password,
       };
 
-      const { error } = User.validate({ userData });
+      const { error } = User.validate(userData);
 
       if (error) {
         return next({
@@ -33,12 +33,21 @@ class UserController {
         });
       }
 
+      const checkEmail = userRepository.findByEmail(email);
+
+      if (checkEmail) {
+        return next({
+          status: 400,
+          message: 'This email is already registred',
+        });
+      }
+
       const user = await userRepository.save(userData);
 
       res.locals = {
         status: 201,
         message: 'User created',
-        user,
+        data: user,
       };
 
       return next();
@@ -70,7 +79,7 @@ class UserController {
 
       res.locals = {
         status: 200,
-        user,
+        data: user,
       };
 
       return next();
