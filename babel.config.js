@@ -1,6 +1,13 @@
 module.exports = {
   presets: [
-    '@babel/preset-env',
+    [
+      '@babel/preset-env',
+      {
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
     '@babel/preset-typescript',
   ],
   plugins: [
@@ -8,5 +15,16 @@ module.exports = {
     ['@babel/plugin-proposal-private-methods', { loose: true }],
     ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
+    ['module-resolver', {
+      alias: {
+        '@config': './src/config',
+        '@models': './src/models',
+        '@controllers': './src/controllers',
+        '@views': './src/views',
+      },
+    }],
+  ],
+  ignore: [
+    '**/*.spec.ts',
   ],
 };
