@@ -19,7 +19,7 @@ export default class UserRepository extends Repository<User> {
 
   public async findByEmail(email: string): Promise<User | false | string> {
     try {
-      const user = await this.findOne({ where: { email: email } });
+      const user = await this.findOne({ where: { email } });
 
       if (!user) {
         return false;
