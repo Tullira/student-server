@@ -33,7 +33,7 @@ class UserController {
         });
       }
 
-      const checkEmail = userRepository.findByEmail(email);
+      const checkEmail = await userRepository.findByEmail(email);
 
       if (checkEmail) {
         return next({
