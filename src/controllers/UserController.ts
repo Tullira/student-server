@@ -1,9 +1,6 @@
-import {
-  Request, Response, NextFunction,
-} from 'express';
-import { getCustomRepository } from 'typeorm';
-import { UserRepository } from '../repositories';
+import { Request, Response, NextFunction } from 'express';
 import { User } from '../DTOs';
+import prisma from '../database/client';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -14,8 +11,6 @@ class UserController {
         email,
         password,
       } = req.body;
-
-      const userRepository = getCustomRepository(UserRepository);
 
       const userData = {
         name,
@@ -33,7 +28,7 @@ class UserController {
         });
       }
 
-      const checkEmail = await userRepository.findByEmail(email);
+      const checkEmail = await prisma.user.findUnique({ where: { email } });
 
       if (checkEmail) {
         return next({
@@ -42,7 +37,7 @@ class UserController {
         });
       }
 
-      const user = await userRepository.save(userData);
+      const user = await prisma.user.create({ data: userData });
 
       res.locals = {
         status: 201,
@@ -60,20 +55,14 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const userRepository = getCustomRepository(UserRepository);
-      const user = await userRepository.findById(userId);
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+      });
 
       if (!user) {
         return next({
           status: 404,
           message: 'User not found',
-        });
-      }
-
-      if (user === 'ERROR') {
-        return next({
-          status: 400,
-          message: 'Incorrect parameters',
         });
       }
 
