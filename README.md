@@ -41,16 +41,8 @@ DATABASE_TEST_DB=boilerplate-test
 ```bash
 docker-compose up
 ```
-6. To run the migrations, open your .env, and change your DATABASE_HOST to this:
-```bash
-DATABASE_HOST=localhost
-```
-7. On a new terminal, run:
+6. To run the migrations, run the server as described and on a new terminal, run:
 ```bash
 yarn migration
 ```
-8. Switch your .env DATABASE_HOST back to this:
-```bash
-DATABASE_HOST=boilerplate-db
-```
-9. Now the server should be running!
+7. Now the server should be running!
