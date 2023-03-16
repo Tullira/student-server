@@ -24,7 +24,6 @@ describe('User CRUDS', () => {
     };
 
     const response = await request(app).post('/user').send(fakeUser);
-
     expect(response.status).toBe(201);
     expect(response.body.data).toHaveProperty('name', fakeUser.name);
     expect(response.body.data).toHaveProperty('email', fakeUser.email);

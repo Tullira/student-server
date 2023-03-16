@@ -1,46 +1,38 @@
-import 'dotenv/config';
-import {
-  Connection, getConnection, ConnectionOptions, createConnection,
-} from 'typeorm';
+import { PrismaClient } from '@prisma/client';
 
 class DatabaseConnection {
-  private connection: Connection | null = null;
+  private prisma: PrismaClient;
 
-  private options: ConnectionOptions;
-
-  constructor(options: ConnectionOptions) {
-    this.options = options;
+  constructor() {
+    this.prisma = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_TEST_URL } } });
   }
 
-  async create(): Promise<Connection> {
+  async create(): Promise<void> {
     try {
-      const connection = await createConnection(this.options);
-      await connection.synchronize();
-      this.connection = connection;
-
-      return this.connection;
+      await this.prisma.$connect();
     } catch (error) {
-      throw new Error('Error: could not connect to test database! Make sure you are running the back-end with the "docker-compose up" command.');
+      throw new Error(`Error: could not connect to test database! Make sure you are running the back-end with the "docker-compose up" command. ${error}`);
     }
   }
 
   async close() {
-    await this.connection.close();
+    await this.prisma.$disconnect();
   }
 
   async clear() {
-    const entities = this.connection.entityMetadatas;
+    const tables = await this.prisma.$queryRaw`
+      SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public' AND tablename NOT LIKE '_prisma_%';
+    ` as { tablename: string }[];
 
     await Promise.all(
-      entities.map(async (entity) => {
-        const repository = this.connection.getRepository(entity.name);
-        await repository.query(`DELETE FROM "${entity.tableName}"`);
+      tables.map(async (table) => {
+        await this.prisma.$executeRawUnsafe(`DELETE FROM "${table.tablename}"`);
       }),
     );
   }
 
   async get() {
-    return getConnection();
+    return this.prisma;
   }
 }
 

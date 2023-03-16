@@ -47,6 +47,7 @@ class UserController {
 
       return next();
     } catch (error) {
+      console.log('AAAAAAAAAA', error);
       return next(error);
     }
   }
