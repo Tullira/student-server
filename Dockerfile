@@ -11,6 +11,8 @@ RUN yarn install
 
 COPY . .
 
+RUN yarn generate
+
 COPY --chown=node:node . .
 
 USER node
