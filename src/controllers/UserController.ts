@@ -47,7 +47,6 @@ class UserController {
 
       return next();
     } catch (error) {
-      console.log('AAAAAAAAAA', error);
       return next(error);
     }
   }
@@ -70,6 +69,60 @@ class UserController {
       res.locals = {
         status: 200,
         data: user,
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.params;
+      const newUser = req.body;
+
+      const user = await prisma.user.update({
+        where: { id: userId },
+        data: newUser,
+      });
+
+      if (!user) {
+        return next({
+          status: 404,
+          message: 'User not found',
+        });
+      }
+
+      res.locals = {
+        status: 200,
+        data: user,
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.params;
+
+      const user = await prisma.user.delete({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        return next({
+          status: 404,
+          message: 'User not found',
+        });
+      }
+
+      res.locals = {
+        status: 200,
+        message: 'User deleted',
       };
 
       return next();
