@@ -23,7 +23,7 @@
     "generate": "yarn prisma generate",
     "lint": "eslint ./src --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix",
-    "test": "cross-env DATABASE_URL=$(grep '^DATABASE_TEST_URL=' .env | awk -F '=' '{print $2}') yarn prisma migrate dev && DATABASE_URL=$(grep '^DATABASE_TEST_URL=' .env | awk -F '=' '{print $2}') jest",
+    "test": "cross-env DATABASE_URL=$(grep '^DATABASE_TEST_URL=' .env | awk -F '=' '{print $2}') yarn prisma migrate dev && cross-env DATABASE_URL=$(grep '^DATABASE_TEST_URL=' .env | awk -F '=' '{print $2}') jest",
     "prepare": "husky install"
   },
   "devDependencies": {
