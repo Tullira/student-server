@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: nodejs-server
+    image: nodejs_prisma-server
     container_name: ${PROJECT_NAME}-server
     restart: unless-stopped
     env_file: .env
