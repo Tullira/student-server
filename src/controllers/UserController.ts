@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import { UserRepository } from '../repositories';
 import { User } from '../DTOs';
-import prisma from '../database/client';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -11,6 +11,8 @@ class UserController {
         email,
         password,
       } = req.body;
+
+      const userRepository = new UserRepository();
 
       const userData = {
         name,
@@ -28,7 +30,7 @@ class UserController {
         });
       }
 
-      const checkEmail = await prisma.user.findUnique({ where: { email } });
+      const checkEmail = await userRepository.findByEmail(email);
 
       if (checkEmail) {
         return next({
@@ -37,7 +39,7 @@ class UserController {
         });
       }
 
-      const user = await prisma.user.create({ data: userData });
+      const user = await userRepository.create(userData);
 
       res.locals = {
         status: 201,
@@ -55,9 +57,9 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-      });
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.findById(userId);
 
       if (!user) {
         return next({
@@ -82,10 +84,9 @@ class UserController {
       const { userId } = req.params;
       const newUser = req.body;
 
-      const user = await prisma.user.update({
-        where: { id: userId },
-        data: newUser,
-      });
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.update(userId, newUser);
 
       if (!user) {
         return next({
@@ -109,9 +110,9 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const user = await prisma.user.delete({
-        where: { id: userId },
-      });
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.delete(userId);
 
       if (!user) {
         return next({
