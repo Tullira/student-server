@@ -23,7 +23,7 @@
     "generate": "yarn prisma generate",
     "lint": "eslint ./src --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix",
-    "test": "cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test'yarn prisma migrate dev && cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' jest",
+    "test": "cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test'yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' jest",
     "prepare": "husky install"
   },
   "devDependencies": {
