@@ -17,8 +17,7 @@
    1. `yarn install`
    1. `code .`
    1. `sudo docker-compose up`
-   1. `yarn migrate`
-   1. `yarn start`
+   1. `yarn test`
    
 2. In your browser go to http://localhost:3001/<route>
 
