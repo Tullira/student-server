@@ -1,8 +1,8 @@
-import Joi from 'joi';
+import { z } from 'zod';
 
-export const User = Joi.object({
-  name: Joi.string().required(),
-  phone: Joi.string(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+export const User = z.object({
+  name: z.string().nonempty(),
+  phone: z.string(),
+  email: z.string().email().nonempty(),
+  password: z.string().nonempty(),
 });
