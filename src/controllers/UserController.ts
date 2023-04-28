@@ -21,12 +21,12 @@ class UserController {
         password,
       };
 
-      const { error } = User.validate(userData);
+      const validation = User.safeParse(userData);
 
-      if (error) {
+      if (validation.success === false) {
         return next({
           status: 400,
-          message: error.details,
+          message: validation.error.issues[0].message,
         });
       }
 

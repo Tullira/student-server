@@ -8,14 +8,8 @@ export class UserRepository {
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    try {
-      const user = await prisma.user.findUnique({ where: { email } });
-      console.log(user);
-      return user;
-    } catch (e) {
-      console.log(e);
-      return null;
-    }
+    const user = await prisma.user.findUnique({ where: { email } });
+    return user;
   }
 
   async findById(id: string): Promise<User | null> {
