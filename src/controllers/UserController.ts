@@ -1,36 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRepository } from '../repositories';
-import { User, userType } from '../DTOs';
+import { User } from '../DTOs';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        name,
-        phone,
-        email,
-        password,
-      }: userType = req.body;
+      const userData = req.body;
 
       const userRepository = new UserRepository();
 
-      const userData = {
-        name,
-        phone,
-        email,
-        password,
-      };
+      const validatedData = User.parse(userData);
 
-      const validation = User.safeParse(userData);
-
-      if (validation.success === false) {
-        return next({
-          status: 400,
-          message: validation.error.issues[0].message,
-        });
-      }
-
-      const checkEmail = await userRepository.findByEmail(email);
+      const checkEmail = await userRepository.findByEmail(validatedData.email);
 
       if (checkEmail) {
         return next({
@@ -49,6 +30,7 @@ class UserController {
 
       return next();
     } catch (error) {
+      console.log(error);
       return next(error);
     }
   }

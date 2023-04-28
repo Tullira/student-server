@@ -21,6 +21,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "strictNullChecks": true,
     "paths": {
       "@controllers/*": [
         "./src/controllers/*"

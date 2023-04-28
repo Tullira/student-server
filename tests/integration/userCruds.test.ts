@@ -90,4 +90,16 @@ describe('User CRUDS', () => {
     const deleteResponse = await request(app).get(`/user/${id}`);
     expect(deleteResponse.status).toBe(404);
   });
+
+  it('should not create a user with an invalid email', async () => {
+    const fakeUser = {
+      name: 'Fake Name',
+      email: 'fakeEmail',
+      password: 'aaaaaaaa',
+    };
+
+    const response = await request(app).post('/user').send(fakeUser);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message', 'Endereço de email inválido');
+  });
 });
