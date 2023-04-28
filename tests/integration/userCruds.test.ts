@@ -18,6 +18,7 @@ describe('User CRUDS', () => {
 
   it('should create a user', async () => {
     const fakeUser = {
+      name: 'Fake Name',
       email: 'fakeEmail@gmail.com',
       password: 'aaaaaaaa',
     };

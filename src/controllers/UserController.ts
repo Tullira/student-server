@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRepository } from '../repositories';
-import { User } from '../DTOs';
+import { User, userType } from '../DTOs';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -10,7 +10,7 @@ class UserController {
         phone,
         email,
         password,
-      } = req.body;
+      }: userType = req.body;
 
       const userRepository = new UserRepository();
 
