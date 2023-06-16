@@ -5,32 +5,13 @@ import { User } from '../DTOs';
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        name,
-        phone,
-        email,
-        password,
-      } = req.body;
+      const userData = req.body;
 
       const userRepository = new UserRepository();
 
-      const userData = {
-        name,
-        phone,
-        email,
-        password,
-      };
+      const validatedData = User.parse(userData);
 
-      const { error } = User.validate(userData);
-
-      if (error) {
-        return next({
-          status: 400,
-          message: error.details,
-        });
-      }
-
-      const checkEmail = await userRepository.findByEmail(email);
+      const checkEmail = await userRepository.findByEmail(validatedData.email);
 
       if (checkEmail) {
         return next({
