@@ -35,14 +35,18 @@ DATABASE_TEST_PORT=5433
 DATABASE_TEST_USER=postgres
 DATABASE_TEST_PASSWORD=docker
 DATABASE_TEST_DB=boilerplate-test
+
+DATABASE_URL=${DATABASE_TYPE}://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
 ```
   
 5. To run the development server, run
 ```bash
 docker-compose up
 ```
+
 6. To run the migrations, run the server as described and on a new terminal, run:
 ```bash
 yarn migration
 ```
+
 7. Now the server should be running!

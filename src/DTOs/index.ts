@@ -1,5 +1,6 @@
-import { User } from './User';
+import { User, userType } from './User';
 
 export {
   User,
+  userType,
 };

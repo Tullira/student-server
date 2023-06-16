@@ -13,4 +13,14 @@ userRouter.route('/:userId')
     UserController.read,
   );
 
+userRouter.route('/:userId')
+  .patch(
+    UserController.update,
+  );
+
+userRouter.route('/:userId')
+  .delete(
+    UserController.delete,
+  );
+
 export default userRouter;

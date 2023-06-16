@@ -1,39 +1,17 @@
-import {
-  Request, Response, NextFunction,
-} from 'express';
-import { getCustomRepository } from 'typeorm';
+import { Request, Response, NextFunction } from 'express';
 import { UserRepository } from '../repositories';
 import { User } from '../DTOs';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const {
-        name,
-        phone,
-        email,
-        password,
-      } = req.body;
+      const userData = req.body;
 
-      const userRepository = getCustomRepository(UserRepository);
+      const userRepository = new UserRepository();
 
-      const userData = {
-        name,
-        phone,
-        email,
-        password,
-      };
+      const validatedData = User.parse(userData);
 
-      const { error } = User.validate(userData);
-
-      if (error) {
-        return next({
-          status: 400,
-          message: error.details,
-        });
-      }
-
-      const checkEmail = await userRepository.findByEmail(email);
+      const checkEmail = await userRepository.findByEmail(validatedData.email);
 
       if (checkEmail) {
         return next({
@@ -42,7 +20,7 @@ class UserController {
         });
       }
 
-      const user = await userRepository.save(userData);
+      const user = await userRepository.create(userData);
 
       res.locals = {
         status: 201,
@@ -60,7 +38,8 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const userRepository = getCustomRepository(UserRepository);
+      const userRepository = new UserRepository();
+
       const user = await userRepository.findById(userId);
 
       if (!user) {
@@ -70,16 +49,62 @@ class UserController {
         });
       }
 
-      if (user === 'ERROR') {
+      res.locals = {
+        status: 200,
+        data: user,
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.params;
+      const newUser = req.body;
+
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.update(userId, newUser);
+
+      if (!user) {
         return next({
-          status: 400,
-          message: 'Incorrect parameters',
+          status: 404,
+          message: 'User not found',
         });
       }
 
       res.locals = {
         status: 200,
         data: user,
+      };
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { userId } = req.params;
+
+      const userRepository = new UserRepository();
+
+      const user = await userRepository.delete(userId);
+
+      if (!user) {
+        return next({
+          status: 404,
+          message: 'User not found',
+        });
+      }
+
+      res.locals = {
+        status: 200,
+        message: 'User deleted',
       };
 
       return next();

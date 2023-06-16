@@ -1,8 +1,15 @@
-import Joi from 'joi';
+import { z } from 'zod';
 
-export const User = Joi.object({
-  name: Joi.string().required(),
-  phone: Joi.string(),
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+export const User = z.object({
+  name: z.string().regex(/^[a-zA-Z\s]+$/, { message: 'O nome deve conter apenas letras' }).nonempty({ message: 'O nome não pode ser vazio' }),
+  phone: z.string().regex(/^\+?[0-9]+$/, { message: 'O número de telefone deve conter apenas números' }).optional(),
+  email: z.string().email({ message: 'Endereço de email inválido' }),
+  password: z.string().min(8, { message: 'A senha deve ter no mínimo 8 caracteres' }),
+});
+
+export const UserUpdate = z.object({
+  name: z.string().regex(/^[a-zA-Z\s]+$/, { message: 'O nome deve conter apenas letras' }).nonempty({ message: 'O nome não pode ser vazio' }).optional(),
+  phone: z.string().regex(/^\+?[0-9]+$/, { message: 'O número de telefone deve conter apenas números' }).optional(),
+  email: z.string().email({ message: 'Endereço de email inválido' }).optional(),
+  password: z.string().min(8, { message: 'A senha deve ter no mínimo 8 caracteres' }).optional(),
 });

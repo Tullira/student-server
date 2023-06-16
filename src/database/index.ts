@@ -1,6 +1,8 @@
-import { createConnection } from 'typeorm';
+import { PrismaClient } from '@prisma/client';
 
-createConnection()
+const prisma = new PrismaClient();
+
+prisma.$connect()
   .then(() => {
     console.log('📦 Successfully connected with database');
   })
