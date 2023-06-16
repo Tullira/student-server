@@ -4,7 +4,7 @@ class DatabaseConnection {
   private prisma: PrismaClient;
 
   constructor() {
-    this.prisma = new PrismaClient({ datasources: { db: { url: process.env.DATABASE_TEST_URL } } });
+    this.prisma = new PrismaClient();
   }
 
   async create(): Promise<void> {
