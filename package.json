@@ -24,8 +24,8 @@
     "generate": "yarn prisma generate",
     "lint": "eslint ./src --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix",
+    "test:ci": "cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' jest --runInBand --ci"
     "test": "cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' jest --runInBand",
-    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
@@ -62,7 +62,6 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "husky": "^7.0.0",
     "jest": "^27.4.7",
     "lint-staged": ">=10",
     "prisma": "^4.11.0",
@@ -72,11 +71,5 @@
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.10.1",
     "typescript": "^4.4.3"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "eslint --cache --fix",
-      "yarn test --findRelatedTests"
-    ]
   }
 }
