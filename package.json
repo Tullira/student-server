@@ -24,8 +24,8 @@
     "generate": "yarn prisma generate",
     "lint": "eslint ./src --ext .ts",
     "lint:fix": "eslint ./src --ext .ts --fix",
-    "test:ci": "cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' jest --runInBand --ci"
-    "test": "cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' jest --runInBand",
+    "test:ci": "cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres' jest --runInBand --ci",
+    "test": "cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' yarn prisma db push && cross-env DATABASE_URL='postgres://postgres:docker@localhost:5433/boilerplate-test' jest --runInBand"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
