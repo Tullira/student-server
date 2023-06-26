@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { hash } from 'bcryptjs';
 import { UserRepository } from '../repositories';
 import { User } from '../DTOs';
 
@@ -20,7 +21,12 @@ class UserController {
         });
       }
 
-      const user = await userRepository.create(userData);
+      const userDataWithHashedPassword = {
+        ...validatedData,
+        password: await hash(validatedData.password, 6),
+      };
+
+      const user = await userRepository.create(userDataWithHashedPassword);
 
       res.locals = {
         status: 201,

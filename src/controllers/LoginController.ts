@@ -1,9 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+import {
+  NextFunction, Request, Response,
+} from 'express';
 
-import { User } from '@DTOs/User';
 import { UserRepository } from '@repositories/userRepository';
+import { compare } from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
-export class LoginController {
+class LoginController {
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
@@ -13,22 +16,24 @@ export class LoginController {
       const user = await userRepository.findByEmail(email);
 
       if (!user) {
-        return res.status(404).json({
-          status: 404,
-          message: 'User not found',
+        return res.status(400).json({
+          status: 400,
+          message: 'Invalid credentials.',
         });
       }
 
-      const checkPassword = await User.comparePassword(password, user.password);
+      const checkPassword = await compare(password, user.password);
 
       if (!checkPassword) {
-        return res.status(401).json({
-          status: 401,
-          message: 'Invalid password',
+        return res.status(400).json({
+          status: 400,
+          message: 'Invalid credentials.',
         });
       }
 
-      const token = await User.generateToken(user.id);
+      const token = await jwt.sign(user, process.env.JWT_SECRET as string, {
+        expiresIn: '1d',
+      });
 
       res.locals = {
         status: 200,
@@ -45,3 +50,5 @@ export class LoginController {
     }
   }
 }
+
+export default new LoginController();
