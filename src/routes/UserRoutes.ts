@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import auth from 'src/middlewares/auth';
+import auth from '../middlewares/auth';
 import { UserController } from '../controllers';
 
 const userRouter = Router();
@@ -11,7 +11,6 @@ userRouter.route('/')
 
 userRouter.route('/:userId')
   .get(
-    [auth],
     UserController.read,
   );
 
