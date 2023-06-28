@@ -69,6 +69,8 @@ describe('User CRUDS', () => {
     expect(response.status).toBe(200);
     expect(response.body.data).toHaveProperty('name');
 
+    console.log('AAAAAAAAAAAAAAAAA', response.body.data);
+
     const { body: { data: { name } } } = await request(app).get(`/user/${id}`);
     expect(name).toBe('New Name');
   });

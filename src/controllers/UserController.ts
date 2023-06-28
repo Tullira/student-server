@@ -68,8 +68,20 @@ class UserController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
-      const newUser = req.body;
+      const { id: userId } = res.locals.token;
+      const {
+        name,
+        phone,
+        email,
+        password,
+      } = req.body;
+
+      const newUser = {
+        name,
+        phone,
+        email,
+        password,
+      };
 
       const userRepository = new UserRepository();
 
@@ -95,7 +107,7 @@ class UserController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const { id: userId } = res.locals.token;
 
       const userRepository = new UserRepository();
 

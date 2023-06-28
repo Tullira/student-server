@@ -7,8 +7,9 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
 
     if (!token) throw new Error('Invalid token');
 
-    jwt.verify(token, process.env.JWT_SECRET as string);
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
 
+    res.locals.token = decodedToken;
     next();
   } catch (error) {
     res.status(401).send({ error: error.message });
