@@ -14,13 +14,13 @@ userRouter.route('/:userId')
     UserController.read,
   );
 
-userRouter.route('/:userId')
+userRouter.route('/')
   .patch(
     [auth],
     UserController.update,
   );
 
-userRouter.route('/:userId')
+userRouter.route('/')
   .delete(
     [auth],
     UserController.delete,

@@ -65,11 +65,9 @@ describe('User CRUDS', () => {
 
     const { id } = decodedToken as { id: string };
 
-    const response = await request(app).patch(`/user/${id}`).set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
+    const response = await request(app).patch('/user').set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
     expect(response.status).toBe(200);
     expect(response.body.data).toHaveProperty('name');
-
-    console.log('AAAAAAAAAAAAAAAAA', response.body.data);
 
     const { body: { data: { name } } } = await request(app).get(`/user/${id}`);
     expect(name).toBe('New Name');
@@ -82,7 +80,7 @@ describe('User CRUDS', () => {
 
     const { id } = decodedToken as { id: string };
 
-    const response = await request(app).delete(`/user/${id}`).set('Authorization', `Bearer ${token}`);
+    const response = await request(app).delete('/user').set('Authorization', `Bearer ${token}`);
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('message', 'User deleted');
 
@@ -90,7 +88,7 @@ describe('User CRUDS', () => {
     expect(deleteResponse.status).toBe(404);
   });
 
-  it('should not create a user with an invalid email', async () => {
+  it('should not be able create a user with an invalid email', async () => {
     const fakeUser = {
       name: 'Fake Name',
       email: 'fakeEmail',

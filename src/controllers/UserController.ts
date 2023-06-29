@@ -42,6 +42,7 @@ class UserController {
 
   async read(req: Request, res: Response, next: NextFunction) {
     try {
+      // deixei o params aqui pois pode ser utilizado na busca de um perfil que não seja o seu.
       const { userId } = req.params;
 
       const userRepository = new UserRepository();
