@@ -31,7 +31,7 @@ if (process.env.NODE_ENV !== 'production') {
           const { timestamp, message, meta } = info;
           const requestBody = JSON.stringify(meta.req.body, null, 2);
           const responseBody = JSON.stringify(meta.res.body, null, 2);
-          const statusCode = meta.res.statusCode;
+          const { statusCode } = meta.res;
 
           return `[${timestamp}] ${message} - ${statusCode}\n\n${
             requestBody ? `Request Body: ${requestBody}\n` : ''
