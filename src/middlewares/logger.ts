@@ -24,7 +24,20 @@ if (process.env.NODE_ENV !== 'production') {
     }),
     new transports.Console({
       level: 'warn',
-      format: format.combine(...formatters, format.colorize({ all: true })),
+      format: format.combine(
+        ...formatters,
+        format.colorize({ all: true }),
+        format.printf((info) => {
+          const { timestamp, message, meta } = info;
+          const requestBody = JSON.stringify(meta.req.body, null, 2);
+          const responseBody = JSON.stringify(meta.res.body, null, 2);
+          const statusCode = meta.res.statusCode;
+
+          return `[${timestamp}] ${message} - ${statusCode}\n\n${
+            requestBody ? `Request Body: ${requestBody}\n` : ''
+          }Response Body: ${responseBody}`;
+        }),
+      ),
     }),
   );
   addColors({
