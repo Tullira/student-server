@@ -1,4 +1,4 @@
-import { createLogger, format, transports, Logger } from 'winston';
+import { createLogger, format, transports, Logger, addColors } from 'winston';
 
 const logsDir = './logs/';
 
@@ -12,6 +12,7 @@ const loggerRequestTransports: transports.StreamTransportInstance[] = [
 ];
 
 if (process.env.NODE_ENV !== 'production') {
+  formatters.push(format.prettyPrint());
   loggerRequestTransports.push(
     new transports.File({
       level: 'info',
@@ -23,19 +24,14 @@ if (process.env.NODE_ENV !== 'production') {
     }),
     new transports.Console({
       level: 'warn',
+      format: format.combine(...formatters, format.colorize({ all: true })),
     }),
   );
-  formatters.push(
-    format.prettyPrint(),
-    format.colorize({
-      colors: {
-        // doesn't work
-        info: 'blue',
-        error: 'red',
-        warn: 'yellow',
-      },
-    }),
-  );
+  addColors({
+    info: 'blue',
+    error: 'red',
+    warn: 'yellow',
+  });
 }
 
 export const requestLogger: Logger = createLogger({
