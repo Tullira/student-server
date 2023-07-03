@@ -42,7 +42,6 @@ class UserController {
 
   async read(req: Request, res: Response, next: NextFunction) {
     try {
-      // deixei o params aqui pois pode ser utilizado na busca de um perfil que não seja o seu.
       const { userId } = req.params;
 
       const userRepository = new UserRepository();
@@ -69,7 +68,7 @@ class UserController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id: userId } = res.locals.token;
+      const { userId } = req.params;
       const {
         name,
         phone,
@@ -98,6 +97,7 @@ class UserController {
       res.locals = {
         status: 200,
         data: user,
+        message: 'User updated',
       };
 
       return next();
@@ -108,7 +108,7 @@ class UserController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { id: userId } = res.locals.token;
+      const { userId } = req.params;
 
       const userRepository = new UserRepository();
 

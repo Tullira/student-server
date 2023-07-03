@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken';
 
 export default class TokenRepository {
-  async generateAccessToken(user: object, expiresIn: string): Promise<string> {
-    const generatedToken = await jwt.sign(user, process.env.JWT_ACCESS_SECRET as string, {
+  generateAccessToken(id: string, expiresIn: string) {
+    const generatedToken = jwt.sign({ id }, process.env.JWT_ACCESS_SECRET as string, {
       expiresIn,
     });
 
     return generatedToken;
   }
 
-  async generateRefreshToken(user: object, expiresIn: string): Promise<string> {
-    const generatedToken = await jwt.sign(user, process.env.JWT_REFRESH_SECRET as string, {
+  generateRefreshToken(id: string, expiresIn: string) {
+    const generatedToken = jwt.sign({ id }, process.env.JWT_REFRESH_SECRET as string, {
       expiresIn,
     });
 

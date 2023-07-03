@@ -30,6 +30,11 @@ export default {
   //   "/node_modules/"
   // ],
 
+  testMatch: [
+    '<rootDir>/tests/integration/*.test.ts',
+    '<rootDir>/tests/unit/*.test.ts',
+  ],
+
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'v8',
 

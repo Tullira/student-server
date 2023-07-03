@@ -1,5 +1,4 @@
 import request from 'supertest';
-import jwt from 'jsonwebtoken';
 import app from '../../src/app';
 import { createAndAuthenticateUser } from '../util/createAndAuthenticateUser';
 
@@ -58,36 +57,6 @@ describe('User CRUDS', () => {
     expect(response.body.data).toHaveProperty('email', fakeUser.email);
   });
 
-  it('should be able to update a user', async () => {
-    const { token } = await createAndAuthenticateUser(app);
-
-    const decodedToken = jwt.decode(token);
-
-    const { id } = decodedToken as { id: string };
-
-    const response = await request(app).patch('/user').set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
-    expect(response.status).toBe(200);
-    expect(response.body.data).toHaveProperty('name');
-
-    const { body: { data: { name } } } = await request(app).get(`/user/${id}`);
-    expect(name).toBe('New Name');
-  });
-
-  it('should be able to delete a user', async () => {
-    const { token } = await createAndAuthenticateUser(app);
-
-    const decodedToken = jwt.decode(token);
-
-    const { id } = decodedToken as { id: string };
-
-    const response = await request(app).delete('/user').set('Authorization', `Bearer ${token}`);
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('message', 'User deleted');
-
-    const deleteResponse = await request(app).get(`/user/${id}`);
-    expect(deleteResponse.status).toBe(404);
-  });
-
   it('should not be able create a user with an invalid email', async () => {
     const fakeUser = {
       name: 'Fake Name',
@@ -98,5 +67,28 @@ describe('User CRUDS', () => {
     const response = await request(app).post('/user').send(fakeUser);
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('message', 'Endereço de email inválido');
+  });
+
+  it('should be able to update a user', async () => {
+    const { token, id } = await createAndAuthenticateUser(app);
+
+    const response = await request(app).patch(`/user/${id}`).set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('message', 'User updated');
+    const { body: { data: { name } } } = await request(app).get(`/user/${id}`);
+    expect(name).toBe('New Name');
+  });
+
+  it('should be able to delete a user', async () => {
+    const { token, id } = await createAndAuthenticateUser(app);
+
+    const response = await request(app).delete(`/user/${id}`).set('Authorization', `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('message', 'User deleted');
+
+    const deleteResponse = await request(app).get(`/user/${id}`);
+    expect(deleteResponse.status).toBe(404);
   });
 });

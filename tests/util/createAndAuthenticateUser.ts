@@ -4,7 +4,7 @@ import { hash } from 'bcryptjs';
 import prisma from '../../src/database/client';
 
 export async function createAndAuthenticateUser(app: Express) {
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -12,14 +12,16 @@ export async function createAndAuthenticateUser(app: Express) {
     },
   });
 
-  const response = await request(app)
+  const tokenResponse = await request(app)
     .post('/sessions')
     .send({
       email: 'johndoe@example.com',
       password: '123456',
     });
 
-  const { token } = response.body.data;
+  const { id } = user;
 
-  return { token };
+  const { accessToken: token } = tokenResponse.body.data;
+
+  return { token, id };
 }

@@ -17,7 +17,7 @@ class LoginController {
       const user = await userRepository.findByEmail(email);
 
       if (!user) {
-        return res.status(400).json({
+        return next({
           status: 400,
           message: 'Invalid credentials.',
         });
@@ -26,25 +26,26 @@ class LoginController {
       const checkPassword = await compare(password, user.password);
 
       if (!checkPassword) {
-        return res.status(400).json({
+        return next({
           status: 400,
           message: 'Invalid credentials.',
         });
       }
-      const tokenRepository = new TokenRepository();
-      const acessToken = await tokenRepository.generateAccessToken(user, '30s');
-      const refreshToken = await tokenRepository.generateRefreshToken(user, '1d');
 
-      setCookie(res, 'accessToken', acessToken);
-      setCookie(res, 'refreshToken', refreshToken);
+      const tokenRepository = new TokenRepository();
+      const accessToken = tokenRepository.generateAccessToken(user.id, '30s');
+      const refreshToken = tokenRepository.generateRefreshToken(user.id, '5d');
+
+      setCookie(res, 'refresh_token', refreshToken);
+
+      const { password: _, ...loggedUser } = user;
 
       res.locals = {
         status: 200,
         message: 'User logged',
         data: {
-          user,
-          acessToken,
-          refreshToken,
+          loggedUser,
+          accessToken,
         },
       };
 
@@ -56,12 +57,14 @@ class LoginController {
 
   async refresh(req: Request, res: Response, next: NextFunction) {
     try {
-      const refreshToken = req.header('Authorization')?.replace('Bearer ', '');
+      const refreshToken = req.cookies.refresh_token;
+
+      console.log(refreshToken);
 
       if (!refreshToken) {
-        clearCookies(res, 'accessToken');
+        delete req.headers.authorization;
 
-        return res.status(401).json({
+        return next({
           status: 401,
           message: 'Invalid token',
         });
@@ -71,9 +74,9 @@ class LoginController {
       const decodedRefreshToken = tokenRepository.verifyRefreshToken(refreshToken);
 
       if (!decodedRefreshToken) {
-        clearCookies(res, 'accessToken');
+        delete req.headers.authorization;
 
-        return res.status(401).json({
+        return next({
           status: 401,
           message: 'Invalid token',
         });
@@ -84,16 +87,18 @@ class LoginController {
       const user = await userRepository.findById(decodedRefreshToken.id);
 
       if (!user) {
-        return res.status(400).json({
+        return next({
           status: 400,
           message: 'User not found',
         });
       }
 
-      const acessToken = await tokenRepository.generateAccessToken(user, '30s');
+      clearCookies(res, 'refresh_token');
 
-      setCookie(res, 'accessToken', acessToken);
-      setCookie(res, 'refreshToken', refreshToken);
+      const newRefreshToken = tokenRepository.generateRefreshToken(user.id, '1d');
+      const acessToken = tokenRepository.generateAccessToken(user.id, '30s');
+
+      setCookie(res, 'refresh_token', newRefreshToken);
 
       res.locals = {
         status: 200,
@@ -112,8 +117,8 @@ class LoginController {
 
   async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      clearCookies(res, 'accessToken');
-      clearCookies(res, 'refreshToken');
+      clearCookies(res, 'refresh_token');
+      delete req.headers.authorization;
 
       res.locals = {
         status: 200,
