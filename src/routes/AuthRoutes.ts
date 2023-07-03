@@ -8,4 +8,14 @@ AuthRouter.route('/')
     LoginController.login,
   );
 
+AuthRouter.route('/')
+  .patch(
+    LoginController.refresh,
+  );
+
+AuthRouter.route('/')
+  .delete(
+    LoginController.logout,
+  );
+
 export default AuthRouter;

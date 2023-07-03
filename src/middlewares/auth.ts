@@ -1,5 +1,5 @@
+import TokenRepository from '@repositories/tokenRepository';
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 
 export default async function auth(req: Request, res: Response, next: NextFunction) {
   try {
@@ -7,7 +7,8 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
 
     if (!token) throw new Error('Invalid token');
 
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET as string);
+    const tokenRepository = new TokenRepository();
+    const decodedToken = tokenRepository.verifyAccessToken(token);
 
     res.locals.token = decodedToken;
     next();
