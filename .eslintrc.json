@@ -6,7 +6,8 @@
   },
   "extends": [
     "airbnb-base",
-    "eslint:recommended"
+    "eslint:recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -23,14 +24,6 @@
   },
   "rules": {
     "camelcase": "off",
-    "semi": [
-      2,
-      "always"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always"
-    ],
     "no-console": "off",
     "import/extensions": [
       "error",
@@ -62,6 +55,8 @@
           "_update"
         ]
       }
-    ]
+    ],
+    "object-curly-newline": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }
