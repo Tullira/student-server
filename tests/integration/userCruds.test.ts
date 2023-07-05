@@ -8,7 +8,9 @@ import { connection } from '../Helper/database.config';
 // because it tests the database (run "docker-compose up")
 
 describe('User CRUDS', () => {
-  beforeAll(async () => connection.create());
+  beforeAll(async () => {
+    connection.create()
+  });
 
   beforeEach(async () => connection.clear());
 
@@ -90,5 +92,24 @@ describe('User CRUDS', () => {
 
     const deleteResponse = await request(app).get(`/user/${id}`);
     expect(deleteResponse.status).toBe(404);
+  });
+
+  it('should not be able to validate a user with an invalid token', async () => {
+    const { id } = await createAndAuthenticateUser(app);
+
+    const response = await request(app).patch(`/user/${id}`).set('Authorization', 'Bearer invalidToken').send({ name: 'New Name' });
+    expect(response.status).toBe(401);
+  });
+
+  it('should not be able to validate a user after token expires', async () => {
+    jest.setSystemTime(new Date("2021-01-01 12:00:00"));
+    const { token, id } = await createAndAuthenticateUser(app);
+
+    const oneMinuteInMilliseconds = 1000 * 60;
+
+    jest.advanceTimersByTime(oneMinuteInMilliseconds);
+
+    const response = await request(app).patch(`/user/${id}`).set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
+    expect(response.status).toBe(401);
   });
 });
