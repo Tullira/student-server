@@ -21,11 +21,11 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 18.16
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 18.16
       - name: Install dependencies and packages
-        run: npm install
+        run: yarn install
       - name: Run the test Script
-        run: npm run test:ci
+        run: yarn test:ci
