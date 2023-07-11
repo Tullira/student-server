@@ -29,8 +29,6 @@ if (process.env.NODE_ENV !== 'production') {
         format.colorize({ all: true }),
         format.printf((info) => {
           const { timestamp, message, meta } = info;
-          // wrap in try-catching to avoid errors when logging non-JSON responses
-          // const requestBody = JSON.stringify(meta.req.body, null, 2);
           let requestBody;
           let responseBody;
           try {

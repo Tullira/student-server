@@ -19,8 +19,6 @@ export async function createAndAuthenticateUser(app: Express) {
       password: '123456',
     });
   
-  console.log(tokenResponse.body);
-
   const { id } = user;
 
   const { accessToken: token } = tokenResponse.body.data;
