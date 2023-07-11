@@ -29,9 +29,22 @@ if (process.env.NODE_ENV !== 'production') {
         format.colorize({ all: true }),
         format.printf((info) => {
           const { timestamp, message, meta } = info;
-          const requestBody = JSON.stringify(meta.req.body, null, 2);
-          const responseBody = JSON.stringify(meta.res.body, null, 2);
-          const { statusCode } = meta.res;
+          let requestBody;
+          let responseBody;
+          try {
+            requestBody = JSON.stringify(meta.req.body, null, 2);
+          }
+          catch (e) {
+            requestBody = meta.req?.body;
+          }
+          try {
+            responseBody = JSON.stringify(meta.res.body, null, 2);
+          }
+          catch (e) {
+            responseBody = meta.res?.body;
+          }
+
+          const statusCode = meta.res?.statusCode;
 
           return `[${timestamp}] ${message} - ${statusCode}\n\n${
             requestBody ? `Request Body: ${requestBody}\n` : ''

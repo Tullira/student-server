@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { hash } from 'bcryptjs';
 import { UserRepository } from '../repositories';
 import { User } from '../DTOs';
 
@@ -20,7 +21,12 @@ class UserController {
         });
       }
 
-      const user = await userRepository.create(userData);
+      const userDataWithHashedPassword = {
+        ...validatedData,
+        password: await hash(validatedData.password, 6),
+      };
+
+      const user = await userRepository.create(userDataWithHashedPassword);
 
       res.locals = {
         status: 201,
@@ -63,7 +69,19 @@ class UserController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.params;
-      const newUser = req.body;
+      const {
+        name,
+        phone,
+        email,
+        password,
+      } = req.body;
+
+      const newUser = {
+        name,
+        phone,
+        email,
+        password,
+      };
 
       const userRepository = new UserRepository();
 
@@ -79,6 +97,7 @@ class UserController {
       res.locals = {
         status: 200,
         data: user,
+        message: 'User updated',
       };
 
       return next();
