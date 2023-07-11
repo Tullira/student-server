@@ -33,7 +33,7 @@ class LoginController {
       }
 
       const tokenRepository = new TokenRepository();
-      const accessToken = tokenRepository.generateAccessToken(user.id, '30s');
+      const accessToken = tokenRepository.generateAccessToken(user.id, '60s');
       const refreshToken = tokenRepository.generateRefreshToken(user.id, '5d');
 
       setCookie(res, 'refresh_token', refreshToken);
@@ -100,11 +100,13 @@ class LoginController {
 
       setCookie(res, 'refresh_token', newRefreshToken);
 
+      const { password: _, ...loggedUser } = user; 
+
       res.locals = {
         status: 200,
         message: 'Token refreshed',
         data: {
-          user,
+          loggedUser,
           acessToken,
         },
       };
