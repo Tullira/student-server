@@ -18,6 +18,8 @@ export async function createAndAuthenticateUser(app: Express) {
       email: 'johndoe@example.com',
       password: '123456',
     });
+  
+  console.log(tokenResponse.body);
 
   const { id } = user;
 

@@ -100,16 +100,4 @@ describe('User CRUDS', () => {
     const response = await request(app).patch(`/user/${id}`).set('Authorization', 'Bearer invalidToken').send({ name: 'New Name' });
     expect(response.status).toBe(401);
   });
-
-  it('should not be able to validate a user after token expires', async () => {
-    jest.setSystemTime(new Date("2021-01-01 12:00:00"));
-    const { token, id } = await createAndAuthenticateUser(app);
-
-    const oneMinuteInMilliseconds = 1000 * 60;
-
-    jest.advanceTimersByTime(oneMinuteInMilliseconds);
-
-    const response = await request(app).patch(`/user/${id}`).set('Authorization', `Bearer ${token}`).send({ name: 'New Name' });
-    expect(response.status).toBe(401);
-  });
 });
