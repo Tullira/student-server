@@ -17,6 +17,7 @@ npm install
 ```dotenv
 # ###### GENERAL SETTINGS #######
 PROJECT_NAME=boilerplate
+NODE_ENV=development
 
 # ###### SERVER SETTINGS #######
 SERVER_PORT=3001
