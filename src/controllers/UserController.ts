@@ -1,20 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { hash } from 'bcryptjs';
 import { UserRepository } from '../repositories';
-import { User } from '../DTOs';
+import { User, UpdateUser } from '../DTOs';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData = req.body;
+      const userData = User.parse(req.body);
 
-      const userRepository = new UserRepository();
+      const existsUserWithEmail = await UserRepository.findByEmail(
+        userData.email,
+      );
 
-      const validatedData = User.parse(userData);
-
-      const checkEmail = await userRepository.findByEmail(validatedData.email);
-
-      if (checkEmail) {
+      if (existsUserWithEmail) {
         return next({
           status: 400,
           message: 'This email is already registred',
@@ -22,11 +20,11 @@ class UserController {
       }
 
       const userDataWithHashedPassword = {
-        ...validatedData,
-        password: await hash(validatedData.password, 6),
+        ...userData,
+        password: await hash(userData.password, 6),
       };
 
-      const user = await userRepository.create(userDataWithHashedPassword);
+      const user = await UserRepository.create(userDataWithHashedPassword);
 
       res.locals = {
         status: 201,
@@ -44,9 +42,7 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const userRepository = new UserRepository();
-
-      const user = await userRepository.findById(userId);
+      const user = await UserRepository.findById(userId);
 
       if (!user) {
         return next({
@@ -69,23 +65,9 @@ class UserController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { userId } = req.params;
-      const {
-        name,
-        phone,
-        email,
-        password,
-      } = req.body;
+      const userData = UpdateUser.parse(req.body);
 
-      const newUser = {
-        name,
-        phone,
-        email,
-        password,
-      };
-
-      const userRepository = new UserRepository();
-
-      const user = await userRepository.update(userId, newUser);
+      const user = await UserRepository.update(userId, userData);
 
       if (!user) {
         return next({
@@ -110,9 +92,7 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const userRepository = new UserRepository();
-
-      const user = await userRepository.delete(userId);
+      const user = await UserRepository.delete(userId);
 
       if (!user) {
         return next({
