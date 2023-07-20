@@ -1,21 +1,22 @@
-name: CD Main
-
+name: Deploy server and run migrations
 on:
   push:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - name: Dokku deploy
-      uses: vitalyliber/dokku-github-action@v4.0
+      uses: vitalyliber/dokku-github-action@v7.1
       env:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        HOST: 157.245.115.176
-        PROJECT: node-boilerplate
+        HOST: ${{ secrets.HOST }}
+        PROJECT: server
         BRANCH: main
-        FORCE_DEPLOY: true
+    - name: Run migrations
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.PRIVATE_KEY }} dokku@${{ secrets.HOST }} run server yarn migration:deploy
