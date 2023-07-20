@@ -6,3 +6,10 @@ docker-compose.yml
 .git
 .gitignore
 .env
+.env.example
+.editorconfig
+.eslint*
+CODEOWNERS
+*.md
+jest.config.js
+.prettierrc
