@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-export default class TokenRepository {
+class TokenRepository {
   generateAccessToken(id: string, expiresIn: string) {
     const generatedToken = jwt.sign({ id }, process.env.JWT_ACCESS_SECRET as string, {
       expiresIn,
@@ -35,3 +35,5 @@ export default class TokenRepository {
     return verifiedToken;
   }
 }
+
+export default new TokenRepository();
