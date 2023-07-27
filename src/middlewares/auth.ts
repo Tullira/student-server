@@ -12,12 +12,11 @@ export default async function auth(req: Request, res: Response, next: NextFuncti
       });
     } else {
       const [, token] = authToken.split(' ');
-      const tokenRepository = new TokenRepository();
 
-      tokenRepository.verifyAccessToken(token);
+      TokenRepository.verifyAccessToken(token);
       next();
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(401).send({ error: error.message });
   }
 }

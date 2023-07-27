@@ -1,5 +1,5 @@
 import UserRepository from './userRepository';
 import TokenRepository from './tokenRepository';
-import { setCookie, clearCookies } from './cookieRepository';
+import CookieRepository from './cookieRepository';
 
-export { UserRepository, TokenRepository, setCookie, clearCookies };
+export { UserRepository, TokenRepository, CookieRepository };

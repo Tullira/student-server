@@ -19,6 +19,4 @@ class CookieRepository {
   }
 }
 
-const { setCookie, clearCookies } = new CookieRepository();
-
-export { setCookie, clearCookies };
+export default new CookieRepository();

@@ -4,8 +4,7 @@ import { compare } from 'bcryptjs';
 import {
   UserRepository,
   TokenRepository,
-  clearCookies,
-  setCookie,
+  CookieRepository,
 } from '@repositories/index';
 
 class LoginController {
@@ -31,11 +30,10 @@ class LoginController {
         });
       }
 
-      const tokenRepository = new TokenRepository();
-      const accessToken = tokenRepository.generateAccessToken(user.id, '60s');
-      const refreshToken = tokenRepository.generateRefreshToken(user.id, '5d');
+      const accessToken = TokenRepository.generateAccessToken(user.id, '60s');
+      const refreshToken = TokenRepository.generateRefreshToken(user.id, '5d');
 
-      setCookie(res, 'refresh_token', refreshToken);
+      CookieRepository.setCookie(res, 'refresh_token', refreshToken);
 
       const { password: _, ...loggedUser } = user;
 
@@ -69,9 +67,7 @@ class LoginController {
         });
       }
 
-      const tokenRepository = new TokenRepository();
-      const decodedRefreshToken =
-        tokenRepository.verifyRefreshToken(refreshToken);
+      const decodedRefreshToken = TokenRepository.verifyRefreshToken(refreshToken);
 
       if (!decodedRefreshToken) {
         delete req.headers.authorization;
@@ -91,15 +87,15 @@ class LoginController {
         });
       }
 
-      clearCookies(res, 'refresh_token');
+      CookieRepository.clearCookies(res, 'refresh_token');
 
-      const newRefreshToken = tokenRepository.generateRefreshToken(
+      const newRefreshToken = TokenRepository.generateRefreshToken(
         user.id,
         '1d',
       );
-      const acessToken = tokenRepository.generateAccessToken(user.id, '30s');
+      const acessToken = TokenRepository.generateAccessToken(user.id, '30s');
 
-      setCookie(res, 'refresh_token', newRefreshToken);
+      CookieRepository.setCookie(res, 'refresh_token', newRefreshToken);
 
       const { password: _, ...loggedUser } = user;
 
@@ -120,7 +116,7 @@ class LoginController {
 
   async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      clearCookies(res, 'refresh_token');
+      CookieRepository.clearCookies(res, 'refresh_token');
       delete req.headers.authorization;
 
       res.locals = {
