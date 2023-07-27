@@ -1,6 +1,6 @@
 node_modules
 npm-debug.log
-Dockerfile
+*Dockerfile
 docker-compose.yml
 .dockerignore
 .git
@@ -13,3 +13,8 @@ CODEOWNERS
 *.md
 jest.config.js
 .prettierrc
+dist
+logs
+coverage
+.vscode
+.github
