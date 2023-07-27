@@ -17,6 +17,3 @@ jobs:
         HOST: ${{ secrets.HOST }}
         PROJECT: server
         BRANCH: main
-    - name: Run migrations
-      run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.PRIVATE_KEY }} dokku@${{ secrets.HOST }} run server yarn migration:deploy
