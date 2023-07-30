@@ -86,7 +86,12 @@ export default {
   // ],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  moduleNameMapper: {
+    '@controllers': '<rootDir>/src/controllers/index.ts',
+    '@repositories': '<rootDir>/src/repositories/index.ts',
+    '@DTOs': '<rootDir>/src/DTOs/index.ts',
+    '@database': '<rootDir>/src/database/index.ts',
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],

@@ -9,20 +9,17 @@
         },
         "target": "es2017",
         "paths": {
-            "@controllers/*": [
-                "./src/controllers/*"
+            "@controllers": [
+                "./src/controllers"
             ],
-            "@models/*": [
-                "./src/models/*"
+            "@DTOs": [
+                "./src/DTOs"
             ],
-            "@DTOs/*": [
-                "./src/DTOs/*"
+            "@repositories": [
+                "./src/repositories/index.ts"
             ],
-            "@repositories/*": [
-                "./src/repositories/*"
-            ],
-            "@database/*": [
-                "./src/database/*"
+            "@database": [
+                "./src/database"
             ]
         }
     },
