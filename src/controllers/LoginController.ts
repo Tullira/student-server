@@ -5,7 +5,7 @@ import {
   UserRepository,
   TokenRepository,
   CookieRepository,
-} from '@repositories/index';
+} from '@repositories';
 
 class LoginController {
   async login(req: Request, res: Response, next: NextFunction) {
@@ -67,7 +67,8 @@ class LoginController {
         });
       }
 
-      const decodedRefreshToken = TokenRepository.verifyRefreshToken(refreshToken);
+      const decodedRefreshToken =
+        TokenRepository.verifyRefreshToken(refreshToken);
 
       if (!decodedRefreshToken) {
         delete req.headers.authorization;

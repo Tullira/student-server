@@ -1,7 +1,11 @@
-import TokenRepository from '@repositories/tokenRepository';
 import { Request, Response, NextFunction } from 'express';
+import { TokenRepository } from '@repositories';
 
-export default async function auth(req: Request, res: Response, next: NextFunction) {
+export default async function auth(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
   try {
     const authToken = req.headers.authorization;
 
