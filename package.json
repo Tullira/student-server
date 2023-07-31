@@ -6,7 +6,6 @@
   "engines": {
     "node": ">=18.16.0"
   },
-  "type": "module",
   "dependencies": {
     "@prisma/client": "^5.0.0",
     "@swc/cli": "^0.1.62",
