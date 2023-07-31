@@ -4,7 +4,7 @@
     "target": "es2017",
     "module": "commonjs",
     "lib": [
-      "es6"
+      "ES2017"
     ],
     "allowJs": true,
     "outDir": "./dist",
@@ -23,20 +23,17 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
-      "@controllers/*": [
-        "./src/controllers/*"
+      "@controllers": [
+        "./src/controllers"
       ],
-      "@models/*": [
-        "./src/models/*"
+      "@DTOs": [
+        "./src/DTOs"
       ],
-      "@DTOs/*": [
-        "./src/DTOs/*"
+      "@repositories": [
+        "./src/repositories"
       ],
-      "@repositories/*": [
-        "./src/repositories/*"
-      ],
-      "@database/*": [
-        "./src/database/*"
+      "@database": [
+        "./src/database"
       ],
     }
   },
