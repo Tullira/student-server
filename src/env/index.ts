@@ -5,13 +5,6 @@ const envSchema = z.object({
   SERVER_PORT: z.coerce.number(),
   NODE_ENV: z.enum(['development', 'production', 'test']),
 
-  DATABASE_TYPE: z.string(),
-  DATABASE_HOST: z.string(),
-  DATABASE_PORT: z.coerce.number(),
-  DATABASE_USER: z.string(),
-  DATABASE_PASSWORD: z.string(),
-  DATABASE_DB: z.string(),
-
   DATABASE_URL: z.string(),
 
   JWT_ACCESS_SECRET: z.string(),
@@ -19,6 +12,13 @@ const envSchema = z.object({
 });
 
 const devEnvSchema = envSchema.extend({
+  DATABASE_TYPE: z.string(),
+  DATABASE_HOST: z.string(),
+  DATABASE_PORT: z.coerce.number(),
+  DATABASE_USER: z.string(),
+  DATABASE_PASSWORD: z.string(),
+  DATABASE_DB: z.string(),
+
   DATABASE_TEST_HOST: z.string(),
   DATABASE_TEST_PORT: z.coerce.number(),
   DATABASE_TEST_USER: z.string(),
