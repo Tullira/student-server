@@ -13,6 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Use Node.js 18.16
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.16
+
     # Installs all the packages
     - name: Install dependencies and packages
       run: yarn install

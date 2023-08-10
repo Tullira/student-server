@@ -21,7 +21,8 @@
             "@database": [
                 "./src/database"
             ]
-        }
+        },
+        "baseUrl": "./"
     },
     "minify": true
 }
