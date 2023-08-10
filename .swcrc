@@ -22,7 +22,7 @@
                 "./src/database"
             ]
         },
-        "baseUrl": "."
+        "baseUrl": "/"
     },
     "minify": true
 }
