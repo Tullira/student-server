@@ -9,6 +9,11 @@ const envSchema = z.object({
 
   JWT_ACCESS_SECRET: z.string(),
   JWT_REFRESH_SECRET: z.string(),
+
+  S3_ENDPOINT: z.string().optional(),
+  S3_BUCKET: z.string().optional(),
+  S3_KEY: z.string().optional(),
+  S3_SECRET: z.string().optional(),
 });
 
 const devEnvSchema = envSchema.extend({
