@@ -6,7 +6,7 @@ import {
 
 const s3 = new S3({
   endpoint: `https://${process.env.S3_ENDPOINT}`,
-  region: process.env.S3_ENDPOINT.split('.')[0],
+  region: process.env.S3_ENDPOINT?.split('.')?.[0],
   credentials: {
     accessKeyId: process.env.S3_KEY,
     secretAccessKey: process.env.S3_SECRET,
