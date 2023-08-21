@@ -19,7 +19,7 @@
     "jsonwebtoken": "^9.0.0",
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.9.0",
-    "zod": "^3.21.4"
+    "zod": "^3.22.2"
   },
   "scripts": {
     "build": "swc src --extensions \".js,.ts\" --out-dir dist --copy-files",
