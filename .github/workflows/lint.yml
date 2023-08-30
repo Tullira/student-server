@@ -28,7 +28,7 @@ jobs:
 
     # Runs the typecheck script
     - name: Run the typecheck Script
-      run: yarn typecheck
+      run: yarn generate && yarn typecheck
 
     # Runs the build script
     - name: Run the build Script
