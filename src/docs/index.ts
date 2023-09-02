@@ -21,5 +21,15 @@ export default {
     schemas: {
       user: userSchema,
     },
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+      },
+    },
+    security: {
+      bearerAuth: [],
+    },
   },
 };
