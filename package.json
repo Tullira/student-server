@@ -28,7 +28,7 @@
     "start": "yarn build && node dist/server.js",
     "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "prod": "yarn migration:deploy && yarn start",
-    "migration": "cross-env DATABASE_HOST='localhost' yarn prisma migrate dev && yarn generate",
+    "migration": "yarn generate && cross-env DATABASE_HOST='localhost' yarn prisma migrate dev && yarn generate",
     "migration:deploy": "yarn prisma migrate deploy",
     "migration:reset": "cross-env DATABASE_HOST='localhost' yarn prisma migrate reset --force",
     "studio": "cross-env DATABASE_HOST='localhost' yarn prisma studio",
