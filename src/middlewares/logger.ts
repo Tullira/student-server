@@ -8,6 +8,8 @@ const loggerRequestTransports: transports.StreamTransportInstance[] = [
   new transports.File({
     level: 'error',
     filename: `${logsDir}requestErrors.log`,
+    handleExceptions: true,
+    handleRejections: true,
   }),
 ];
 
@@ -33,14 +35,12 @@ if (process.env.NODE_ENV !== 'production') {
           let responseBody;
           try {
             requestBody = JSON.stringify(meta.req.body, null, 2);
-          }
-          catch (e) {
+          } catch (e) {
             requestBody = meta.req?.body;
           }
           try {
             responseBody = JSON.stringify(meta.res.body, null, 2);
-          }
-          catch (e) {
+          } catch (e) {
             responseBody = meta.res?.body;
           }
 
@@ -51,6 +51,8 @@ if (process.env.NODE_ENV !== 'production') {
           }Response Body: ${responseBody}`;
         }),
       ),
+      handleExceptions: true,
+      handleRejections: true,
     }),
   );
   addColors({

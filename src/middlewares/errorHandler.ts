@@ -8,8 +8,11 @@ const errorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  res.locals.status = error.status;
-  res.locals.message = error.message;
+  if (!error) return next();
+
+  res.locals.status = error.status || 500;
+  res.locals.message = error.message || 'Algo deu errado.';
+
   if (error instanceof ZodError) {
     res.locals.status = 400;
     res.locals.message = error.issues[0].message;
