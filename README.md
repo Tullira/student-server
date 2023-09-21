@@ -83,6 +83,22 @@ yarn migration
 - Formatação de código com Prettier;
 - Documentação com Swagger em _`src/docs`_
 
+## Workflows:
+
+### `cd_main.yml`:
+
+- Faz o deploy da branch `main` no Dokku a cada push;
+- Requer duas variáveis de ambiente _no repositório_: `PRIVATE_KEY` e `HOST`.
+- Para configurar o Dokku na Digital Ocean, siga [este tutorial](https://www.notion.so/citiufpe/Treinamento-Deploy-com-Dokku-9d65f4bd964149168875e77cf478a4cd).;
+
+### `lint.yml`:
+
+- Roda o ESLint, Typescript e o builder em todos os pull requests e em pushes na develop;
+
+### `test.yml`:
+
+- Roda os testes de integração em todos os pull requests e em pushes na develop;
+
 ## Erros comuns:
 
 ### Erro ao rodar `docker-compose up`:
