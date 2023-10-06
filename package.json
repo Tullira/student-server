@@ -27,7 +27,7 @@
   "scripts": {
     "build": "swc src --extensions \".js,.ts\" --out-dir dist --copy-files",
     "start": "yarn build && node dist/server.js",
-    "dev": "ts-node-dev --poll -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
+    "dev": "ts-node-dev --poll --exit-child -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "prod": "yarn migration:deploy && yarn start",
     "migration": "cross-env DATABASE_HOST='localhost' yarn prisma migrate dev && yarn generate",
     "migration:deploy": "yarn prisma migrate deploy",
