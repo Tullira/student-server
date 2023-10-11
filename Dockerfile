@@ -1,6 +1,8 @@
 # dockerfile used for production. no further configuration is needed
 
-FROM node:18.16
+FROM node:18.16-slim
+
+RUN apt-get update -y && apt-get install -y openssl
 
 RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
