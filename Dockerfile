@@ -1,6 +1,6 @@
 # dockerfile used for production. no further configuration is needed
 
-FROM node:18.16-slim
+FROM node:20.9.0-slim
 
 RUN apt-get update -y && apt-get install -y openssl
 
