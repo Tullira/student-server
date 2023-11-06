@@ -25,7 +25,7 @@ dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 dokku letsencrypt:set client email devs@citi.org.br
 dokku letsencrypt:set server email devs@citi.org.br
 dokku domains:report client | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove client {}
-dokku domains:report client | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove server {}
+dokku domains:report server | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove server {}
 dokku letsencrypt:enable client
 dokku letsencrypt:enable server
 dokku letsencrypt:cron-job --add

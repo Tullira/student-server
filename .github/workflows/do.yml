@@ -1,0 +1,17 @@
+on: create
+jobs:
+  setup-digitalocean:
+    if: ${{ startsWith(github.ref, 'refs/heads/main') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
+      - name: Create Project
+        run: |
+          doctl projects create --name ${{github.event.repository.name}}
+          doctl projects list
+      - name: Create Droplet
+        run: |
+          doctl compute droplet create ${{github.event.repository.name}} --image dokku-22-04 --region nyc1 --size s-1vcpu-1gb --user-data-file ../user_data.sh --project ${{github.event.repository.name}} --wait
+          doctl compute droplet list
