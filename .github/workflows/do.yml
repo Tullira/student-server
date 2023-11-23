@@ -9,7 +9,10 @@ jobs:
           token: ${{ secrets.DIGITAL_OCEAN_TOKEN }}
       - name: Create Project
         run: |
-          doctl projects create --name ${{github.event.repository.name}} --purpose "Web Application"
+          doctl projects create --name ${{github.event.repository.name}} --purpose "Web Application" --wait | awk 'NR==2{print $1}' > project_id.txt
       - name: Create Droplet
         run: |
-          doctl compute droplet create ${{github.event.repository.name}} --image dokku-20-04 --region nyc1 --size s-1vcpu-1gb --user-data-file ../user_data.sh --wait
+          doctl compute droplet create ${{github.event.repository.name}} --image dokku-20-04 --region nyc1 --size s-1vcpu-1gb --user-data-file ../user_data.sh --wait | awk 'NR==2{print $1}' > droplet_id.txt
+      - name: Assign Droplet to Project
+        run: |
+          doctl projects resources assign $(cat project_id.txt) --resource do:droplet:$(cat droplet_id.txt)
