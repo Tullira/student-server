@@ -7,13 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Dokku deploy
-      uses: vitalyliber/dokku-github-action@v7.1
-      env:
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        HOST: ${{ secrets.HOST }}
-        PROJECT: server
-        BRANCH: main
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Dokku deploy
+        uses: vitalyliber/dokku-github-action@v7.1
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          HOST: ${{ secrets.HOST }}
+          PROJECT: server
+          BRANCH: main
