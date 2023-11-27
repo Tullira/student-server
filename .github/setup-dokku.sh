@@ -6,7 +6,7 @@ dokku apps:create client
 dokku apps:create server
 
 # add ssh-key to dokku
-dokku ssh-keys:add admin $PUBLIC_KEY
+echo $PUBLIC_KEY | dokku ssh-keys:add admin
 
 # add env variables
 JWT_ACCESS_SECRET=$(openssl rand -base64 16)
