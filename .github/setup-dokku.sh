@@ -16,6 +16,7 @@ dokku config:set server JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET JWT_REFRESH_SECRET=
 # setup ports and domains
 dokku proxy:ports-add client http:80:3000
 dokku proxy:ports-add server http:80:3001
+ufw allow 3001
 
 dokku domains:report client | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove client {}
 dokku domains:report server | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove server {}
