@@ -26,9 +26,9 @@
   },
   "scripts": {
     "build": "swc src --extensions \".js,.ts\" --out-dir dist --copy-files",
-    "start": "npx build && node dist/server.js",
+    "start": "npm run build && node dist/server.js",
     "dev": "ts-node-dev --poll --exit-child -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "prod": "npx migration:deploy && npx start",
+    "prod": "npm run migration:deploy && npm run start",
     "migration": "cross-env DATABASE_HOST='localhost' prisma migrate dev",
     "migration:deploy": "prisma migrate deploy",
     "migration:reset": "cross-env DATABASE_HOST='localhost' prisma migrate reset --force",
