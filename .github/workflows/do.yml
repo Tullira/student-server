@@ -59,7 +59,7 @@ jobs:
 
       - name: Setup Dokku
         run: |
-          ssh -i /home/runner/.ssh/github_actions -o StrictHostKeyChecking=no root@$(cat droplet_ip.txt) "CLIENT_DOMAIN=${{ env.CLIENT_DOMAIN }} PUBLIC_KEY=${{ env.PUBLIC_KEY }} bash -s" < .github/setup-dokku.sh
+          ssh -i /home/runner/.ssh/github_actions -o StrictHostKeyChecking=no root@$(cat droplet_ip.txt) "CLIENT_DOMAIN='${{ env.CLIENT_DOMAIN }}' PUBLIC_KEY='${{ env.PUBLIC_KEY }}' bash -s" < .github/setup-dokku.sh
       - name: Commit droplet IP to repo
         run: |
           git config --global user.email "citi@cin.ufpe.br"
