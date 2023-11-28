@@ -6,7 +6,7 @@ dokku apps:create client
 dokku apps:create server
 
 # add ssh-key to dokku
-dokku ssh-keys:add admin $PUBLIC_KEY
+echo $PUBLIC_KEY | dokku ssh-keys:add admin
 
 # add env variables
 JWT_ACCESS_SECRET=$(openssl rand -base64 16)
@@ -16,6 +16,7 @@ dokku config:set server JWT_ACCESS_SECRET=$JWT_ACCESS_SECRET JWT_REFRESH_SECRET=
 # setup ports and domains
 dokku proxy:ports-add client http:80:3000
 dokku proxy:ports-add server http:80:3001
+ufw allow 3001
 
 dokku domains:report client | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove client {}
 dokku domains:report server | grep packer | awk '{print $NF}' | xargs -I {} dokku domains:remove server {}
