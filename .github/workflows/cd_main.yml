@@ -22,7 +22,7 @@ jobs:
       - name: Dokku deploy
         uses: vitalyliber/dokku-github-action@v7.1
         env:
-          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          PRIVATE_KEY: ${{ secrets.CITI_PRIVATE_KEY }}
           HOST: ${{ env.DROPLET_IP }}
           PROJECT: server
           BRANCH: main
