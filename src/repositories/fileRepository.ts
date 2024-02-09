@@ -22,7 +22,7 @@ class FileRepository {
       Key,
       Body,
       ACL: 'public-read',
-    };
+    } as const;
 
     await s3.send(new PutObjectCommand(params));
 

@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   server:
     build:
@@ -9,13 +9,19 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - "${SERVER_PORT}:3001"
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
+      - '${SERVER_PORT}:3001'
     depends_on:
       - db
       - test-db
+    develop:
+      watch:
+        - action: sync
+          path: ./
+          target: /home/node/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
 
   db:
     image: postgres
@@ -28,7 +34,7 @@ services:
       - POSTGRES_DB=${DATABASE_DB}
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
-      - "${DATABASE_PORT}:5432"
+      - '${DATABASE_PORT}:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -41,7 +47,7 @@ services:
       - POSTGRES_PASSWORD=${DATABASE_TEST_PASSWORD}
       - POSTGRES_DB=${DATABASE_TEST_DB}
     ports:
-      - "${DATABASE_TEST_PORT}:5432"
+      - '${DATABASE_TEST_PORT}:5432'
 
 volumes:
   pgdata:
