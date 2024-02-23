@@ -69,13 +69,6 @@ class UserController {
 
       const user = await UserRepository.update(userId, userData);
 
-      if (!user) {
-        return next({
-          status: 404,
-          message: 'User not found',
-        });
-      }
-
       res.locals = {
         status: 200,
         data: user,
@@ -92,14 +85,7 @@ class UserController {
     try {
       const { userId } = req.params;
 
-      const user = await UserRepository.delete(userId);
-
-      if (!user) {
-        return next({
-          status: 404,
-          message: 'User not found',
-        });
-      }
+      await UserRepository.delete(userId);
 
       res.locals = {
         status: 200,
