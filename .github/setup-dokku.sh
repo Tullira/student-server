@@ -50,3 +50,8 @@ echo "/var/swap.img    none    swap    sw    0    0" >> /etc/fstab
 dokku plugin:install https://github.com/dokku/dokku-postgres.git
 dokku postgres:create server-db
 dokku postgres:link server-db server
+
+# allow password authentication
+echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+echo "KbdInteractiveAuthentication yes" >> /etc/ssh/sshd_config
+echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
