@@ -52,6 +52,6 @@ dokku postgres:create server-db
 dokku postgres:link server-db server
 
 # allow password authentication
-echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
-echo "KbdInteractiveAuthentication yes" >> /etc/ssh/sshd_config
-echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/g' /etc/ssh/sshd_config
+systemctl restart ssh
