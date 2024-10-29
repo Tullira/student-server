@@ -83,7 +83,7 @@ module.exports = (plop) => {
         path: '../src/routes/index.ts', // O mesmo arquivo
         pattern: /router.use\(.*\);/, // Padrão para encontrar a linha do router.use
         template:
-          "router.use('/{{pascalCase name}}', {{pascalCase name}}Routes);\n",
+          "router.use('/{{camelCase name}}', {{pascalCase name}}Routes);\n",
       },
     ],
   });
