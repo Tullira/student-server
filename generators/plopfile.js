@@ -75,12 +75,13 @@ module.exports = (plop) => {
         type: 'modify',
         path: '../src/routes/index.ts', // O mesmo arquivo
         pattern: /\n/, // Localização específica
-        template: "\n\nimport {{pascalCase name}}Routes from './{{pascalCase name}}Routes';",
+        template:
+          "\n\nimport {{pascalCase name}}Routes from './{{pascalCase name}}Routes';",
       },
       {
         type: 'modify',
         path: '../src/routes/index.ts', // O mesmo arquivo
-        pattern: /const router = Router();\n/, // Padrão para encontrar a linha do router.use
+        pattern: /const router = Router\(\);/, // Padrão para encontrar a linha do router.use
         template:
           "const router = Router();\n\nrouter.use('/{{camelCase name}}', {{pascalCase name}}Routes);",
       },
