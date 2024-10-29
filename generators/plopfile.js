@@ -79,8 +79,22 @@ module.exports = (plop) => {
       {
         type: 'append',
         path: '../src/DTOs/index.ts',
-        template: 'export { {{pascalCase name}}, Update{{pascalCase name}} };\n',
+        template:
+          'export { {{pascalCase name}}, Update{{pascalCase name}} };\n',
         skipIfExists: true,
+      },
+      {
+        type: 'modify',
+        path: '../src/routes/index.ts', // O arquivo onde as rotas são importadas
+        pattern: /^(import .*;\n)/,
+        template:
+          "import {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n$1",
+      },
+      {
+        type: 'modify',
+        path: '../src/routes/index.ts', // O mesmo arquivo
+        pattern: /const router = Router();/, // Localização específica
+        template: "router.use('/{{pascalCase name}}', {{pascalCase name}}Routes);\n",
       },
     ],
   });
