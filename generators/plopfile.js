@@ -74,8 +74,8 @@ module.exports = (plop) => {
       {
         type: 'modify',
         path: '../src/routes/index.ts', // O mesmo arquivo
-        pattern: /import { Router } from 'express';/, // Localização específica
-        template: "import { Router } from 'express';\nimport {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n",
+        pattern: /\n/, // Localização específica
+        template: "\n\nimport {{pascalCase name}}Routes from './{{pascalCase name}}Routes';",
       },
     //   {
     //     type: 'modify',
