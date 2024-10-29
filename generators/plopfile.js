@@ -77,13 +77,13 @@ module.exports = (plop) => {
         pattern: /import { Router } from 'express';/, // Localização específica
         template: "import { Router } from 'express';\nimport {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n",
       },
-      {
-        type: 'modify',
-        path: '../src/routes/index.ts', // O mesmo arquivo
-        pattern: /router.use\(.*\);/, // Padrão para encontrar a linha do router.use
-        template:
-          "router.use('/{{camelCase name}}', {{pascalCase name}}Routes);\n",
-      },
+    //   {
+    //     type: 'modify',
+    //     path: '../src/routes/index.ts', // O mesmo arquivo
+    //     pattern: /router.use\(.*\);/, // Padrão para encontrar a linha do router.use
+    //     template:
+    //       "router.use('/{{camelCase name}}', {{pascalCase name}}Routes);\n",
+    //   },
     ],
   });
 };
