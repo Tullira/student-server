@@ -51,13 +51,7 @@ module.exports = (plop) => {
         template:
           "import {{pascalCase name}}Repository from './{{pascalCase name}}Repository';\n$1",
       },
-      {
-        type: 'modify',
-        path: '../src/routes/index.ts',
-        pattern: /^(import .*;\n)/,
-        template:
-          "import {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n$1",
-      },
+
       {
         type: 'append',
         path: '../src/controllers/index.ts',
@@ -68,12 +62,6 @@ module.exports = (plop) => {
         type: 'append',
         path: '../src/repositories/index.ts',
         template: 'export { {{pascalCase name}}Repository };\n',
-        skipIfExists: true,
-      },
-      {
-        type: 'append',
-        path: '../src/routes/index.ts',
-        template: 'export { {{pascalCase name}}Routes };\n',
         skipIfExists: true,
       },
       {
@@ -93,8 +81,9 @@ module.exports = (plop) => {
       {
         type: 'modify',
         path: '../src/routes/index.ts', // O mesmo arquivo
-        pattern: /const router = Router();/, // Localização específica
-        template: "router.use('/{{pascalCase name}}', {{pascalCase name}}Routes);\n",
+        pattern: /router.use\(.*\);/, // Padrão para encontrar a linha do router.use
+        template:
+          "router.use('/{{pascalCase name}}', {{pascalCase name}}Routes);\n",
       },
     ],
   });
