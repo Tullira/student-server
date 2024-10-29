@@ -73,10 +73,9 @@ module.exports = (plop) => {
       },
       {
         type: 'modify',
-        path: '../src/routes/index.ts', // O arquivo onde as rotas são importadas
-        pattern: /^(import .*;\n)/,
-        template:
-          "import {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n$1",
+        path: '../src/routes/index.ts', // O mesmo arquivo
+        pattern: /import { Router } from 'express';\n/, // Localização específica
+        template: "import {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n",
       },
       {
         type: 'modify',
