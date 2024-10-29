@@ -1,7 +1,7 @@
 module.exports = (plop) => {
-  // Gerador para controlador
-  plop.setGenerator('controller', {
-    description: 'Create a controller for a model',
+  // Gerador para controlador, repositório, rotas e DTO
+  plop.setGenerator('model', {
+    description: 'Create a controller, repository, routes, and DTO for a model',
     prompts: [
       {
         type: 'input',
@@ -29,6 +29,58 @@ module.exports = (plop) => {
         type: 'add',
         path: '../src/DTOs/{{pascalCase name}}.ts',
         templateFile: 'templates/regularDTO.ts.hbs',
+      },
+      {
+        type: 'modify',
+        path: '../src/DTOs/index.ts',
+        pattern: /^(import .*;\n)/,
+        template:
+          "import { {{pascalCase name}}, Update{{pascalCase name}} } from './{{pascalCase name}}';\n$1",
+      },
+      {
+        type: 'modify',
+        path: '../src/controllers/index.ts',
+        pattern: /^(import .*;\n)/,
+        template:
+          "import {{pascalCase name}}Controller from './{{pascalCase name}}Controller';\n$1",
+      },
+      {
+        type: 'modify',
+        path: '../src/repositories/index.ts',
+        pattern: /^(import .*;\n)/,
+        template:
+          "import {{pascalCase name}}Repository from './{{pascalCase name}}Repository';\n$1",
+      },
+      {
+        type: 'modify',
+        path: '../src/routes/index.ts',
+        pattern: /^(import .*;\n)/,
+        template:
+          "import {{pascalCase name}}Routes from './{{pascalCase name}}Routes';\n$1",
+      },
+      {
+        type: 'append',
+        path: '../src/controllers/index.ts',
+        template: 'export { {{pascalCase name}}Controller };\n',
+        skipIfExists: true,
+      },
+      {
+        type: 'append',
+        path: '../src/repositories/index.ts',
+        template: 'export { {{pascalCase name}}Repository };\n',
+        skipIfExists: true,
+      },
+      {
+        type: 'append',
+        path: '../src/routes/index.ts',
+        template: 'export { {{pascalCase name}}Routes };\n',
+        skipIfExists: true,
+      },
+      {
+        type: 'append',
+        path: '../src/DTOs/index.ts',
+        template: 'export { {{pascalCase name}}, Update{{pascalCase name}} };\n',
+        skipIfExists: true,
       },
     ],
   });
