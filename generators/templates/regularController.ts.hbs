@@ -108,7 +108,7 @@ class {{pascalCase name}}Controller {
         });
       }
 
-      const {{camelCase name}} = await {{pascalCase name}}Repository.delete({{camelCase name}}Id);
+      await {{pascalCase name}}Repository.delete({{camelCase name}}Id);
 
       res.locals = {
         status: 200,
