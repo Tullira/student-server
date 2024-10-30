@@ -40,16 +40,16 @@ module.exports = (plop) => {
       {
         type: 'modify',
         path: '../src/controllers/index.ts',
-        pattern: /^(import .*;\n)/,
+        pattern: /(export {)/,
         template:
-          "import {{pascalCase name}}Controller from './{{pascalCase name}}Controller';\n$1",
+          "import {{pascalCase name}}Controller from './{{pascalCase name}}Controller';\n\n$1",
       },
       {
         type: 'modify',
         path: '../src/repositories/index.ts',
-        pattern: /^(import .*;\n)/,
+        pattern: /(export {)/,
         template:
-          "import {{pascalCase name}}Repository from './{{pascalCase name}}Repository';\n$1",
+          "import {{pascalCase name}}Repository from './{{pascalCase name}}Repository';\n\n$1",
       },
 
       {
