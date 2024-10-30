@@ -17,11 +17,6 @@ class {{ properCase name }}Repository {
     return {{ camelCase name }}s as {{ properCase name }}[];
   }
 
-  async read(id: string): Promise<{{ properCase name }} | null> {
-    const {{ camelCase name }} = await prisma.{{ camelCase name }}.findUnique({ where: { id } });
-    return {{ camelCase name }};
-  }
-
   async update(id: string, data: Prisma.{{ properCase name }}UpdateInput): Promise<{{ properCase name }}> {
     const {{ camelCase name }} = await prisma.{{ camelCase name }}.update({ where: { id }, data });
     return {{ camelCase name }};

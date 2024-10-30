@@ -8,11 +8,10 @@ class {{pascalCase name}}Controller {
       const {{camelCase name}}Data = {{pascalCase name}}.parse(req.body);
 
       const {{camelCase name}} = await {{pascalCase name}}Repository.create({{camelCase name}}Data);
-      const messageText = '{{pascalCase name}} criado com sucesso!';
 
       res.locals = {
         status: 201,
-        message: messageText,
+        message: '{{pascalCase name}} criado com sucesso!',
         data: {{camelCase name}},
       };
 
@@ -73,14 +72,16 @@ class {{pascalCase name}}Controller {
       const { {{camelCase name}}Id } = req.params;
       const {{camelCase name}}Data = Update{{pascalCase name}}.parse(req.body);
 
-      const {{camelCase name}} = await {{pascalCase name}}Repository.update({{camelCase name}}Id, {{camelCase name}}Data);
+      const {{camelCase name}}exists = await {{pascalCase name}}Repository.findById({{camelCase name}}Id);
 
-      if (!{{camelCase name}}) {
+      if (!{{camelCase name}}exists) {
         return next({
           status: 404,
           message: '{{pascalCase name}} não encontrado',
         });
       }
+
+      const {{camelCase name}} = await {{pascalCase name}}Repository.update({{camelCase name}}Id, {{camelCase name}}Data);
 
       res.locals = {
         status: 200,
@@ -98,14 +99,16 @@ class {{pascalCase name}}Controller {
     try {
       const { {{camelCase name}}Id } = req.params;
 
-      const {{camelCase name}} = await {{pascalCase name}}Repository.delete({{camelCase name}}Id);
+      const {{camelCase name}}exists = await {{pascalCase name}}Repository.findById({{camelCase name}}Id);
 
-      if (!{{camelCase name}}) {
+      if (!{{camelCase name}}exists) {
         return next({
           status: 404,
           message: '{{pascalCase name}} não encontrado',
         });
       }
+
+      const {{camelCase name}} = await {{pascalCase name}}Repository.delete({{camelCase name}}Id);
 
       res.locals = {
         status: 200,
