@@ -1,5 +1,5 @@
 import { Prisma, {{ name }} } from '@prisma/client';
-import prisma from '../database';
+import prisma from '@database';
 
 class {{ properCase name }}Repository {
   async create(data: Prisma.{{ properCase name }}CreateInput): Promise<{{ properCase name }}> {
