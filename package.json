@@ -45,7 +45,7 @@
     "typecheck": "tsc --noEmit --skipLibCheck"
   },
   "devDependencies": {
-    "@swc/jest": "^0.2.34",
+    "@swc/jest": "^0.2.37",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.6",
     "@types/cors": "^2.8.17",
