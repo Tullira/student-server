@@ -1,5 +1,16 @@
-import UserController from './UserController';
 import LoginController from './LoginController';
 import FileController from './fileController';
 
-export { UserController, LoginController, FileController };
+import SubjectController from './SubjectController';
+
+import UserOnSubjectController from './UserOnSubjectController';
+
+import UserController from './UserController';
+
+export { LoginController, FileController };
+
+export { SubjectController };
+
+export { UserOnSubjectController };
+
+export { UserController };

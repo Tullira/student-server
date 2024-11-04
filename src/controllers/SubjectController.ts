@@ -1,18 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserRepository } from '../repositories';
-import { User, UpdateUser } from '../DTOs';
+import { SubjectRepository } from '../repositories';
+import { Subject, UpdateSubject } from '../DTOs';
 
-class UserController {
+class SubjectController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const userData = User.parse(req.body);
+      const subjectData = Subject.parse(req.body);
 
-      const user = await UserRepository.create(userData);
+      const subject = await SubjectRepository.create(subjectData);
 
       res.locals = {
         status: 201,
-        message: 'User criado com sucesso!',
-        data: user,
+        message: 'Subject criado com sucesso!',
+        data: subject,
       };
 
       return next();
@@ -23,20 +23,20 @@ class UserController {
 
   async read(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const { subjectId } = req.params;
 
-      const user = await UserRepository.findById(userId);
+      const subject = await SubjectRepository.findById(subjectId);
 
-      if (!user) {
+      if (!subject) {
         return next({
           status: 404,
-          message: 'User não encontrado',
+          message: 'Subject não encontrado',
         });
       }
 
       res.locals = {
         status: 200,
-        data: user,
+        data: subject,
       };
 
       return next();
@@ -47,18 +47,18 @@ class UserController {
 
   async readAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await UserRepository.findAll();
+      const subject = await SubjectRepository.findAll();
 
-      if (!user) {
+      if (!subject) {
         return next({
           status: 404,
-          message: 'Users não encontrados',
+          message: 'Subjects não encontrados',
         });
       }
 
       res.locals = {
         status: 200,
-        data: user,
+        data: subject,
       };
 
       return next();
@@ -69,24 +69,24 @@ class UserController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
-      const userData = UpdateUser.parse(req.body);
+      const { subjectId } = req.params;
+      const subjectData = UpdateSubject.parse(req.body);
 
-      const userexists = await UserRepository.findById(userId);
+      const subjectexists = await SubjectRepository.findById(subjectId);
 
-      if (!userexists) {
+      if (!subjectexists) {
         return next({
           status: 404,
-          message: 'User não encontrado',
+          message: 'Subject não encontrado',
         });
       }
 
-      const user = await UserRepository.update(userId, userData);
+      const subject = await SubjectRepository.update(subjectId, subjectData);
 
       res.locals = {
         status: 200,
-        data: user,
-        message: 'User atualizado!',
+        data: subject,
+        message: 'Subject atualizado!',
       };
 
       return next();
@@ -97,22 +97,22 @@ class UserController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const { userId } = req.params;
+      const { subjectId } = req.params;
 
-      const userexists = await UserRepository.findById(userId);
+      const subjectexists = await SubjectRepository.findById(subjectId);
 
-      if (!userexists) {
+      if (!subjectexists) {
         return next({
           status: 404,
-          message: 'User não encontrado',
+          message: 'Subject não encontrado',
         });
       }
 
-      await UserRepository.delete(userId);
+      await SubjectRepository.delete(subjectId);
 
       res.locals = {
         status: 200,
-        message: 'User deletado',
+        message: 'Subject deletado',
       };
 
       return next();
@@ -122,4 +122,4 @@ class UserController {
   }
 }
 
-export default new UserController();
+export default new SubjectController();

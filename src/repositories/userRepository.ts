@@ -7,14 +7,14 @@ class UserRepository {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({ where: { email } });
-    return user;
-  }
-
   async findById(id: string): Promise<User | null> {
     const user = await prisma.user.findUnique({ where: { id } });
     return user;
+  }
+
+  async findAll(): Promise<User[] | null> {
+    const users = await prisma.user.findMany();
+    return users as User[];
   }
 
   async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
@@ -25,11 +25,6 @@ class UserRepository {
   async delete(id: string): Promise<User> {
     const user = await prisma.user.delete({ where: { id } });
     return user;
-  }
-
-  async findAll(): Promise<User[]> {
-    const users = await prisma.user.findMany();
-    return users;
   }
 }
 

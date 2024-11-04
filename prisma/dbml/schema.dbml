@@ -8,4 +8,29 @@ Table User {
   phone String
   email String [unique, not null]
   password String [not null]
+  UserOnSubject UserOnSubject [not null]
 }
+
+Table Subject {
+  id String [pk]
+  name String [not null]
+  maxFaults Int [not null]
+  UserOnSubject UserOnSubject [not null]
+}
+
+Table UserOnSubject {
+  name String [not null]
+  maxFaults Int [not null]
+  userId String [not null]
+  subjectId String [not null]
+  User User
+  Subject Subject
+
+  indexes {
+    (userId, subjectId) [pk]
+  }
+}
+
+Ref: UserOnSubject.userId > User.id
+
+Ref: UserOnSubject.subjectId > Subject.id

@@ -18,4 +18,25 @@ model User {
   phone    String?
   email    String  @unique
   password String
+
+  UserOnSubject UserOnSubject[]
+}
+
+model Subject {
+  id       String @id @default(uuid())
+  name     String
+  maxFaults  Int
+
+  UserOnSubject UserOnSubject[]
+}
+
+model UserOnSubject {
+  faults   Int
+  finished Boolean @default(false)
+  userId   String 
+  subjectId String
+  User      User? @relation(fields: [userId], references: [id])
+  Subject   Subject? @relation(fields:[subjectId], references: [id])
+
+  @@id([userId,subjectId])
 }

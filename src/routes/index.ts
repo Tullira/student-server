@@ -1,12 +1,19 @@
 import { Router } from 'express';
 
-import UserRouter from './UserRoutes';
+import UserRoutes from './UserRoutes';
+import UserOnSubjectRoutes from './UserOnSubjectRoutes';
+import SubjectRoutes from './SubjectRoutes';
 import AuthRouter from './AuthRoutes';
 import FileRouter from './FileRoutes';
 
 const router = Router();
 
-router.use('/user', UserRouter);
+router.use('/user', UserRoutes);
+
+router.use('/userOnSubject', UserOnSubjectRoutes);
+
+router.use('/subject', SubjectRoutes);
+
 router.use('/sessions', AuthRouter);
 router.use('/file', FileRouter);
 router.route('/').get((_, res) => {

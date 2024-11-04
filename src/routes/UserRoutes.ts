@@ -1,29 +1,12 @@
 import { Router } from 'express';
-import auth from '../middlewares/auth';
-import { UserController } from '../controllers';
+import { UserController } from '@controllers';
 
-const userRouter = Router();
+const UserRouter = Router();
 
-userRouter.route('/')
-  .post(
-    UserController.create,
-  );
+UserRouter.route('/').post(UserController.create);
+UserRouter.route('/').get(UserController.readAll);
+UserRouter.route('/:userId').get(UserController.read);
+UserRouter.route('/:userId').patch(UserController.update);
+UserRouter.route('/:userId').delete(UserController.delete);
 
-userRouter.route('/:userId')
-  .get(
-    UserController.read,
-  );
-
-userRouter.route('/:userId')
-  .patch(
-    [auth],
-    UserController.update,
-  );
-
-userRouter.route('/:userId')
-  .delete(
-    [auth],
-    UserController.delete,
-  );
-
-export default userRouter;
+export default UserRouter;
